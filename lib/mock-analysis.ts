@@ -131,6 +131,102 @@ const profiles: Record<string, AnalysisResult> = {
   },
 };
 
+function normalizeFilename(filename: string) {
+  return filename.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+const demoFilenameProfiles: Record<string, AnalysisResult> = {
+  [normalizeFilename("WhatsApp Image 2026-03-21 at 14.41.55.jpeg")]: {
+    title: "Empty aluminum energy drink cans",
+    category: "Metal",
+    material: "Aluminum",
+    condition: "Used",
+    recommendedAction: "recycle",
+    bestNextAction: "Sort for recycling",
+    reuseValue: "Low",
+    recycleValue: "High",
+    bountyPoints: 20,
+    sustainabilityImpact:
+      "Aluminum is highly recyclable, and separating these cans helps recover valuable material while reducing landfill waste.",
+    reuseIdeas: [],
+    notes:
+      "This upload is a recycling candidate, not a marketplace reuse listing.",
+    cta: "Mark for Recycling",
+  },
+  [normalizeFilename("WhatsApp Image 2026-03-21 at 14.43.03.jpeg")]: {
+    title: "Empty plastic water bottles",
+    category: "Plastic",
+    material: "PET plastic",
+    condition: "Used",
+    recommendedAction: "recycle",
+    bestNextAction: "Recycle properly",
+    reuseValue: "Low",
+    recycleValue: "High",
+    bountyPoints: 15,
+    sustainabilityImpact:
+      "Recycling clean plastic bottles helps recover usable material and reduces single-use plastic waste on campus.",
+    reuseIdeas: [],
+    notes:
+      "This upload should go to recycling rather than the campus marketplace.",
+    cta: "Mark for Recycling",
+  },
+  [normalizeFilename("WhatsApp Image 2026-03-21 at 16.01.30.jpeg")]: {
+    title: "Food waste on disposable plates",
+    category: "Mixed waste",
+    material: "Food scraps and contaminated disposable material",
+    condition: "Used / contaminated",
+    recommendedAction: "dispose",
+    bestNextAction: "Dispose properly",
+    reuseValue: "None",
+    recycleValue: "Low",
+    bountyPoints: 5,
+    sustainabilityImpact:
+      "Food-contaminated disposable plates are not suitable for reuse and may not be recyclable, so proper disposal helps reduce contamination in recycling streams.",
+    reuseIdeas: [],
+    notes:
+      "This upload is contaminated waste and should not be posted to the marketplace.",
+    cta: "Dispose Properly",
+  },
+  [normalizeFilename("WhatsApp Image 2026-03-21 at 16.08.20.jpeg")]: {
+    title: "Damaged computer keyboard",
+    category: "Electronic waste",
+    material: "Mixed electronics and plastic",
+    condition: "Broken / nonfunctional",
+    recommendedAction: "recycle",
+    bestNextAction: "Send to e-waste recycling",
+    reuseValue: "None",
+    recycleValue: "Medium to High",
+    bountyPoints: 25,
+    sustainabilityImpact:
+      "Electronic waste contains recoverable materials and should be handled through proper e-waste recycling instead of landfill disposal.",
+    reuseIdeas: [],
+    notes:
+      "This upload belongs in e-waste recycling, not the reuse marketplace.",
+    cta: "Send to E-Waste Recycling",
+  },
+  [normalizeFilename("WhatsApp Image 2026-03-21 at 16.23.54.jpeg")]: {
+    title: "Used fabric couch",
+    category: "Furniture",
+    material: "Upholstered furniture",
+    condition: "Worn but reusable",
+    recommendedAction: "reuse",
+    bestNextAction: "Post to marketplace",
+    reuseValue: "High",
+    recycleValue: "Low",
+    bountyPoints: 30,
+    sustainabilityImpact:
+      "Reusing furniture prevents bulky waste from going to landfill and gives the item a second life through local pickup or donation.",
+    reuseIdeas: [
+      "Student apartment furniture",
+      "Temporary dorm lounge seating",
+      "Community reuse / local pickup",
+    ],
+    notes:
+      "This upload is a clear marketplace reuse listing and should be posted for local pickup.",
+    cta: "Post to Marketplace",
+  },
+};
+
 const explicitKeywordRules: Array<{ id: keyof typeof profiles; keywords: string[] }> = [
   {
     id: "paperWaste",
@@ -191,7 +287,13 @@ function getStableHash(input: string) {
 }
 
 export function getMockAnalysis(file: File, fallbackSeed = 0): AnalysisResult {
-  const normalizedName = file.name.toLowerCase();
+  const normalizedName = normalizeFilename(file.name);
+
+  const demoMatch = demoFilenameProfiles[normalizedName];
+
+  if (demoMatch) {
+    return demoMatch;
+  }
 
   const directMatch = explicitKeywordRules.find(({ keywords }) =>
     keywords.some((keyword) => normalizedName.includes(keyword)),

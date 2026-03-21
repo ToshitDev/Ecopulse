@@ -2,7 +2,28 @@
 
 "use client";
 
+import { useEffect, useState } from "react";
 import type { Listing } from "@/lib/types";
+
+function makeImageFallback(title: string) {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+      <rect width="1200" height="800" fill="#efe6d8" />
+      <rect x="60" y="60" width="1080" height="680" rx="40" fill="rgba(255,255,255,0.45)" />
+      <text x="80" y="160" fill="#1f241f" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700">
+        EcoPulse
+      </text>
+      <text x="80" y="250" fill="#1f241f" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700">
+        ${title}
+      </text>
+      <text x="80" y="332" fill="#4f5a4c" font-family="Arial, Helvetica, sans-serif" font-size="28">
+        Image preview unavailable
+      </text>
+    </svg>
+  `;
+
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
 
 export function ListingCard({
   listing,
@@ -15,15 +36,22 @@ export function ListingCard({
   captureLabel?: string;
   onCapture?: (id: string) => void;
 }) {
+  const [imageSrc, setImageSrc] = useState(listing.imageUrl);
+
+  useEffect(() => {
+    setImageSrc(listing.imageUrl);
+  }, [listing.imageUrl]);
+
   return (
     <article className="surface-card overflow-hidden rounded-[1.9rem]">
       <div className="grid gap-0 lg:grid-cols-[280px_minmax(0,1fr)]">
         <div className="soft-panel border-b border-[color:var(--line)] p-4 lg:border-b-0 lg:border-r">
           <div className="overflow-hidden rounded-[1.35rem] border border-[color:var(--line)] bg-white">
             <img
-              src={listing.imageUrl}
+              src={imageSrc}
               alt={listing.title}
               className="h-56 w-full object-cover lg:h-full lg:max-h-[340px]"
+              onError={() => setImageSrc(makeImageFallback(listing.title))}
             />
           </div>
           <div className="mt-3 rounded-[1.15rem] bg-white/65 px-3.5 py-3 text-sm text-[color:var(--muted)]">

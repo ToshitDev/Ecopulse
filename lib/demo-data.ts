@@ -10,26 +10,6 @@ export const seededCampusImpact = {
   wasteDivertedLbs: 86,
 };
 
-function makePlaceholder(title: string, tone: string) {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
-      <rect width="1200" height="800" fill="${tone}" />
-      <rect x="60" y="60" width="1080" height="680" rx="40" fill="rgba(255,255,255,0.28)" />
-      <text x="80" y="160" fill="#1f241f" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700">
-        EcoPulse
-      </text>
-      <text x="80" y="250" fill="#1f241f" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="700">
-        ${title}
-      </text>
-      <text x="80" y="332" fill="#364035" font-family="Arial, Helvetica, sans-serif" font-size="28">
-        Demo listing preview
-      </text>
-    </svg>
-  `;
-
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
-}
-
 export const seededLeaderboard: LeaderboardUser[] = [
   {
     id: "maya",
@@ -86,7 +66,7 @@ export const seededListings: Listing[] = [
     sustainabilityImpact: "Keeps about 12 pounds of cardboard in reuse instead of disposal.",
     bountyPoints: 20,
     notes: "Bundle of medium boxes from this week's supply shipment.",
-    imageUrl: makePlaceholder("Double-wall shipping boxes", "#d9c1a5"),
+    imageUrl: "/shipping-boxes.jpg",
     imageName: "shipping-boxes.jpg",
     postedBy: "Jonah Brooks",
     location: "Engineering studio",
@@ -108,7 +88,7 @@ export const seededListings: Listing[] = [
     sustainabilityImpact: "Could replace a fresh quarter-sheet of plywood on the next build.",
     bountyPoints: 30,
     notes: "Mostly 8 to 18 inch strips from a furniture prototype run.",
-    imageUrl: makePlaceholder("Birch plywood offcuts", "#cfb69b"),
+    imageUrl: "/wood-offcuts.jpg",
     imageName: "wood-offcuts.jpg",
     postedBy: "Sofia Patel",
     location: "Fabrication lab",
@@ -116,28 +96,6 @@ export const seededListings: Listing[] = [
   },
   {
     id: "seed-3",
-    title: "Clear acrylic sign leftovers",
-    category: "acrylic sheets",
-    condition: "Minor edge scuffs",
-    recommendedAction: "repurpose",
-    reuseValue: "Medium",
-    recycleValue: "Low",
-    reuseIdeas: [
-      "Small menu holders",
-      "Protective covers for electronics demos",
-      "Score and snap into label plates",
-    ],
-    sustainabilityImpact: "Extends use of plastic sheet stock that would otherwise be trashed after one event.",
-    bountyPoints: 25,
-    notes: "Six clear pieces left from a campus showcase.",
-    imageUrl: makePlaceholder("Clear acrylic sign leftovers", "#d3ddd9"),
-    imageName: "acrylic-leftovers.jpg",
-    postedBy: "Maya Chen",
-    location: "Event storage closet",
-    status: "available",
-  },
-  {
-    id: "seed-4",
     title: "Assorted sensor and wire bundle",
     category: "electronics parts",
     condition: "Tested, mixed batch",
@@ -152,56 +110,11 @@ export const seededListings: Listing[] = [
     sustainabilityImpact: "Saves a new order of small components and keeps e-waste out of the bin.",
     bountyPoints: 35,
     notes: "Includes jumper wires, breadboard sensors, and spare headers.",
-    imageUrl: makePlaceholder("Assorted sensor and wire bundle", "#c9d4d2"),
+    imageUrl: "/sensor-bundle.jpg",
     imageName: "sensor-bundle.jpg",
     postedBy: "Reese Alvarez",
     location: "Robotics bench",
     status: "available",
-  },
-  {
-    id: "seed-5",
-    title: "Stackable deli containers",
-    category: "containers",
-    condition: "Washed and nested",
-    recommendedAction: "reuse",
-    reuseValue: "High",
-    recycleValue: "Medium",
-    reuseIdeas: [
-      "Organize screws and small parts",
-      "Portion paint or glue for workshops",
-      "Sort giveaway materials by table",
-    ],
-    sustainabilityImpact: "Reuses food-service plastic instead of buying new organizers.",
-    bountyPoints: 18,
-    notes: "Twenty clear quart containers with matching lids.",
-    imageUrl: makePlaceholder("Stackable deli containers", "#d5e0cf"),
-    imageName: "containers.jpg",
-    postedBy: "Jonah Brooks",
-    location: "Community kitchen back shelf",
-    status: "available",
-  },
-  {
-    id: "seed-6",
-    title: "Canvas banner scraps",
-    category: "fabric",
-    condition: "Clean, weather-resistant",
-    recommendedAction: "repurpose",
-    reuseValue: "Medium",
-    recycleValue: "Low",
-    reuseIdeas: [
-      "Tool roll sleeves",
-      "Durable tote panel tests",
-      "Protective wraps for market displays",
-    ],
-    sustainabilityImpact: "Gives event material a second life before it becomes landfill waste.",
-    bountyPoints: 22,
-    notes: "Trimmed pieces from last month's volunteer fair backdrop.",
-    imageUrl: makePlaceholder("Canvas banner scraps", "#d3c1b1"),
-    imageName: "canvas-scraps.jpg",
-    postedBy: "Maya Chen",
-    location: "Print shop rack",
-    status: "captured",
-    capturedBy: "Sofia Patel",
   },
 ];
 

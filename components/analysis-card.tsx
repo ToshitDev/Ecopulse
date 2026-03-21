@@ -52,13 +52,21 @@ export function AnalysisCard({ result }: { result: AnalysisResult }) {
             <p className="text-[11px] uppercase tracking-[0.16em] text-[color:var(--earth)]">Condition</p>
             <p className="mt-2 text-sm font-semibold text-[color:var(--foreground)]">{result.condition}</p>
           </div>
+          <div className="rounded-[1.35rem] bg-[#fcf9f3] p-4">
+            <p className="text-[11px] uppercase tracking-[0.16em] text-[color:var(--earth)]">Material</p>
+            <p className="mt-2 text-sm font-semibold text-[color:var(--foreground)]">
+              {result.material ?? "Mixed material"}
+            </p>
+          </div>
           <div className="rounded-[1.35rem] bg-[#f4eee8] p-4">
             <p className="text-[11px] uppercase tracking-[0.16em] text-[color:var(--earth)]">Category</p>
             <p className="mt-2 text-sm font-semibold capitalize text-[color:var(--foreground)]">{result.category}</p>
           </div>
           <div className="rounded-[1.35rem] bg-[#fcf9f3] p-4">
             <p className="text-[11px] uppercase tracking-[0.16em] text-[color:var(--earth)]">Best next action</p>
-            <p className="mt-2 text-sm font-semibold text-[color:var(--foreground)]">{actionLabel}</p>
+            <p className="mt-2 text-sm font-semibold text-[color:var(--foreground)]">
+              {result.bestNextAction ?? actionLabel}
+            </p>
           </div>
         </div>
         <div className="grid gap-3">
@@ -85,17 +93,23 @@ export function AnalysisCard({ result }: { result: AnalysisResult }) {
             ? "Suggested reuse"
             : "Suggested actions"}
         </p>
-        <ul className="grid gap-2.5 text-sm leading-6 text-[color:var(--muted)]">
-          {result.reuseIdeas.map((idea) => (
-            <li
-              key={idea}
-              className="flex items-start gap-3 rounded-[1.2rem] border border-[color:var(--line)] bg-[#fcfaf5] px-4 py-3"
-            >
-              <span className="mt-1 h-2.5 w-2.5 flex-none rounded-full bg-[color:var(--earth)]/70" />
-              <span>{idea}</span>
-            </li>
-          ))}
-        </ul>
+        {result.reuseIdeas.length > 0 ? (
+          <ul className="grid gap-2.5 text-sm leading-6 text-[color:var(--muted)]">
+            {result.reuseIdeas.map((idea) => (
+              <li
+                key={idea}
+                className="flex items-start gap-3 rounded-[1.2rem] border border-[color:var(--line)] bg-[#fcfaf5] px-4 py-3"
+              >
+                <span className="mt-1 h-2.5 w-2.5 flex-none rounded-full bg-[color:var(--earth)]/70" />
+                <span>{idea}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="rounded-[1.2rem] border border-[color:var(--line)] bg-[#fcfaf5] px-4 py-3 text-sm leading-6 text-[color:var(--muted)]">
+            No reuse suggestions for this item.
+          </div>
+        )}
       </div>
     </section>
   );

@@ -13,27 +13,32 @@ export function UploadFlow() {
   const { listings, postListing } = useAppStore();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
+  const [persistedImageUrl, setPersistedImageUrl] = useState<string>("");
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [message, setMessage] = useState("Choose a photo to generate a listing draft.");
-  const previewUrlRef = useRef<string>("");
   const analysisTimeoutRef = useRef<number | null>(null);
+  const fileReadTokenRef = useRef(0);
   const isLowReuseRecommendation =
     analysis?.recommendedAction === "recycle" || analysis?.recommendedAction === "dispose";
+  const primaryCta =
+    analysis?.cta ??
+    (analysis?.recommendedAction === "dispose"
+      ? "Dispose Properly"
+      : analysis?.recommendedAction === "recycle"
+        ? "Mark for Recycling"
+        : "Post to Marketplace");
 
   useEffect(() => {
     return () => {
       if (analysisTimeoutRef.current) {
         window.clearTimeout(analysisTimeoutRef.current);
       }
-      if (previewUrlRef.current) {
-        URL.revokeObjectURL(previewUrlRef.current);
-      }
     };
   }, []);
 
   const handlePost = () => {
-    if (!selectedFile || !analysis || !previewUrl) {
+    if (!selectedFile || !analysis || !persistedImageUrl) {
       setMessage("Choose a file first so EcoPulse can draft the listing.");
       return;
     }
@@ -49,17 +54,14 @@ export function UploadFlow() {
 
     postListing({
       ...analysis,
-      imageUrl: previewUrl,
+      imageUrl: persistedImageUrl,
       imageName: selectedFile.name,
     });
 
     setSelectedFile(null);
     setAnalysis(null);
-    if (previewUrlRef.current) {
-      URL.revokeObjectURL(previewUrlRef.current);
-      previewUrlRef.current = "";
-    }
     setPreviewUrl("");
+    setPersistedImageUrl("");
     setMessage("Listing posted. Head to the marketplace to let someone claim it.");
   };
 
@@ -144,17 +146,34 @@ export function UploadFlow() {
                 analysisTimeoutRef.current = null;
               }
 
-              if (previewUrlRef.current) {
-                URL.revokeObjectURL(previewUrlRef.current);
-                previewUrlRef.current = "";
-              }
+              fileReadTokenRef.current += 1;
+              const readToken = fileReadTokenRef.current;
 
               if (file) {
-                const objectUrl = URL.createObjectURL(file);
-                previewUrlRef.current = objectUrl;
-                setPreviewUrl(objectUrl);
                 setIsAnalyzing(true);
                 setMessage("Reviewing the item and deciding the best next step...");
+                setPersistedImageUrl("");
+                const reader = new FileReader();
+                reader.onload = () => {
+                  if (readToken !== fileReadTokenRef.current) {
+                    return;
+                  }
+
+                  const result = typeof reader.result === "string" ? reader.result : "";
+                  setPreviewUrl(result);
+                  setPersistedImageUrl(result);
+                };
+                reader.onerror = () => {
+                  if (readToken !== fileReadTokenRef.current) {
+                    return;
+                  }
+
+                  setPreviewUrl("");
+                  setPersistedImageUrl("");
+                  setIsAnalyzing(false);
+                  setMessage("The image could not be loaded. Choose a different photo.");
+                };
+                reader.readAsDataURL(file);
                 analysisTimeoutRef.current = window.setTimeout(() => {
                   const result = getMockAnalysis(file, listings.length);
                   setAnalysis(result);
@@ -169,6 +188,7 @@ export function UploadFlow() {
                 }, 650);
               } else {
                 setPreviewUrl("");
+                setPersistedImageUrl("");
                 setIsAnalyzing(false);
                 setMessage("Choose a photo to generate a listing draft.");
               }
@@ -195,11 +215,7 @@ export function UploadFlow() {
                   : "cursor-not-allowed border border-[color:var(--line)] bg-[#f6f0e6] text-[color:var(--muted)]"
               }`}
             >
-              {analysis?.recommendedAction === "dispose"
-                ? "Do not post to marketplace"
-                : isLowReuseRecommendation
-                  ? "Recycle instead of posting"
-                  : "Post to Marketplace"}
+              {primaryCta}
             </button>
           </div>
 
