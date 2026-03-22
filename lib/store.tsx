@@ -28,6 +28,12 @@ const SEEDED_POSTER_NAME_OVERRIDES: Record<string, string> = {
   "seed-2": "Toshit",
   "seed-3": "Rithvik",
 };
+const SEEDED_LEADERBOARD_NAME_OVERRIDES: Record<string, string> = {
+  [DEMO_CAPTURE_USER_ID]: "Allu Arjun",
+  jonah: "Rohan",
+  sofia: "Toshit",
+  reese: "Rithvik",
+};
 
 interface AppStoreValue extends AppState {
   isReady: boolean;
@@ -55,7 +61,7 @@ function normalizeState(state: AppState): AppState {
     })),
     leaderboard: state.leaderboard.map((user) => ({
       ...user,
-      name: user.id === DEMO_CAPTURE_USER_ID ? "Allu Arjun" : user.name,
+      name: SEEDED_LEADERBOARD_NAME_OVERRIDES[user.id] ?? user.name,
       recoveryCount: "recoveryCount" in user ? user.recoveryCount : 0,
     })),
   };

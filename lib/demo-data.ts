@@ -19,7 +19,7 @@ export const seededLeaderboard: LeaderboardUser[] = [
   },
   {
     id: "jonah",
-    name: "Jonah Brooks",
+    name: "Rohan",
     points: 140,
     postedCount: 4,
     capturedCount: 1,
@@ -28,7 +28,7 @@ export const seededLeaderboard: LeaderboardUser[] = [
   },
   {
     id: "sofia",
-    name: "Sofia Patel",
+    name: "Toshit",
     points: 120,
     postedCount: 2,
     capturedCount: 1,
@@ -37,7 +37,7 @@ export const seededLeaderboard: LeaderboardUser[] = [
   },
   {
     id: "reese",
-    name: "Reese Alvarez",
+    name: "Rithvik",
     points: 90,
     postedCount: 2,
     capturedCount: 1,

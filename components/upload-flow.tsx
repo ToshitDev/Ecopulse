@@ -105,10 +105,12 @@ export function UploadFlow() {
             </div>
             <div className="rounded-[1.15rem] bg-[#edf3ed] px-3 py-2 text-right">
               <p className="text-[11px] uppercase tracking-[0.14em] text-[color:var(--accent)]">
-                {routesToMarketplace ? "Commit action" : "Recommended route"}
+                {analysis ? "Recommended route" : "Pending AI review"}
               </p>
               <p className="mt-1 text-lg font-semibold text-[color:var(--foreground)]">
-                {analysis?.recommendedAction === "dispose"
+                {!analysis
+                  ? "Waiting for analysis"
+                  : analysis.recommendedAction === "dispose"
                   ? "Recovery Board"
                   : !routesToMarketplace
                     ? "Recovery Board"
