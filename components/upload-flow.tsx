@@ -5,6 +5,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnalysisCard } from "@/components/analysis-card";
 import { SectionHeading } from "@/components/section-heading";
+import { toAnalysisResult } from "@/lib/ai-analysis";
 import { getMockAnalysis } from "@/lib/mock-analysis";
 import { useAppStore } from "@/lib/store";
 import type { AnalysisResult } from "@/lib/types";
@@ -36,6 +37,27 @@ export function UploadFlow() {
       }
     };
   }, []);
+
+  const analyzeWithFallback = async (file: File) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const response = await fetch("/api/analyze-image", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Gemini analysis failed");
+      }
+
+      const payload = (await response.json()) as Parameters<typeof toAnalysisResult>[0];
+      return toAnalysisResult(payload);
+    } catch {
+      return getMockAnalysis(file, listings.length);
+    }
+  };
 
   const handlePost = () => {
     if (!selectedFile || !analysis || !persistedImageUrl) {
@@ -175,16 +197,21 @@ export function UploadFlow() {
                 };
                 reader.readAsDataURL(file);
                 analysisTimeoutRef.current = window.setTimeout(() => {
-                  const result = getMockAnalysis(file, listings.length);
-                  setAnalysis(result);
-                  setIsAnalyzing(false);
-                  setMessage(
-                    result.recommendedAction === "dispose"
-                      ? "Analysis ready. This looks like disposable waste and should stay out of the marketplace."
-                      : result.recommendedAction === "recycle"
-                        ? "Analysis ready. This item should go to recycling, not the marketplace."
-                        : "Analysis ready. Post it when it looks right.",
-                  );
+                  void analyzeWithFallback(file).then((result) => {
+                    if (readToken !== fileReadTokenRef.current) {
+                      return;
+                    }
+
+                    setAnalysis(result);
+                    setIsAnalyzing(false);
+                    setMessage(
+                      result.recommendedAction === "dispose"
+                        ? "Analysis ready. This looks like disposable waste and should stay out of the marketplace."
+                        : result.recommendedAction === "recycle"
+                          ? "Analysis ready. This item should go to recycling, not the marketplace."
+                          : "Analysis ready. Post it when it looks right.",
+                    );
+                  });
                 }, 650);
               } else {
                 setPreviewUrl("");

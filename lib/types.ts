@@ -1,18 +1,4 @@
-export type ListingCategory =
-  | "paper"
-  | "food waste"
-  | "cardboard"
-  | "wood scraps"
-  | "electronics parts"
-  | "acrylic sheets"
-  | "containers"
-  | "fabric"
-  | "event leftovers"
-  | "Metal"
-  | "Plastic"
-  | "Mixed waste"
-  | "Electronic waste"
-  | "Furniture";
+export type ListingCategory = string;
 
 export type RecommendedAction = "reuse" | "donate" | "recycle" | "repurpose" | "dispose";
 

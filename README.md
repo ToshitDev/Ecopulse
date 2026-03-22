@@ -45,6 +45,18 @@ npm run dev
 
 Open `http://localhost:3000`.
 
+Create a local env file before using Gemini image analysis:
+
+```bash
+cp .env.example .env.local
+```
+
+Set:
+
+```bash
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
 ## Demo Flow
 
 1. Start on the landing page
