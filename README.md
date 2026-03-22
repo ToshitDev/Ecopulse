@@ -1,92 +1,88 @@
 # EcoPulse
 
-EcoPulse is a 24-hour MVP for campus sustainability. It helps people keep useful leftover materials out of the trash by using AI to identify items, suggest the best next step, and post them to a shared reuse marketplace.
+EcoPulse is an AI-powered campus sustainability MVP that helps leftover materials get routed to the right next step before they become waste.
 
-Users upload a photo of a leftover item, get an AI-style review, post it to the campus marketplace, let another user claim it, and watch the impact board update instantly.
+With a single photo, EcoPulse identifies an item, classifies its likely material and condition, and recommends whether it should be:
 
-## Why This Exists
+- reused through the **Marketplace**
+- handled through the **Recovery Board** for recycling, donation, or disposal
+- tracked through the **Impact Board** for visible sustainability outcomes
 
-Useful leftover materials often get thrown away because reuse takes more effort than disposal.
+EcoPulse is designed to make reuse and recovery easier than throwing things away.
 
-EcoPulse simplifies that into one clear flow:
+---
 
-1. Upload leftover material
-2. Get a fast listing draft
-3. Post it for reuse
-4. Capture it
-5. Show impact with points
+## Overview
 
-## MVP Scope
+Campuses generate a large volume of leftover materials every day: cardboard, wood scraps, electronics parts, containers, textiles, furniture, and event materials.
 
-- Landing page
-- Upload page
-- Marketplace page
-- Impact Board page
-- Seeded demo data
-- Deterministic AI-style demo analysis
-- Local `localStorage` persistence
-- Post listing flow
-- Capture listing flow
-- Immediate leaderboard updates
-- Reset Demo Data action
+Many of these items are still useful, but they are often discarded because people do not know the right next step and disposal is the easiest option.
+
+EcoPulse turns that problem into a simple workflow:
+
+**Upload → Analyze → Route → Act**
+
+Instead of guessing where something belongs, users get a clear recommendation immediately.
+
+---
+
+## Core Product Flow
+
+### 1. Upload
+A student or staff member uploads a single photo of a leftover item.
+
+### 2. Analyze
+EcoPulse uses image analysis to identify the item, estimate its material and condition, and determine the most practical next step.
+
+### 3. Route
+- **Marketplace** receives reuse-ready items that can be claimed by others on campus
+- **Recovery Board** receives non-reuse items that should be recycled, donated, or properly disposed of
+
+### 4. Track
+The **Impact Board** makes actions visible through a lightweight points system and leaderboard.
+
+---
+
+## Why It Matters
+
+EcoPulse is built to improve campus sustainability in a practical way.
+
+It helps campuses:
+
+- reduce landfill waste
+- keep useful materials in circulation
+- make material-routing decisions faster
+- improve visibility into sustainability actions
+- create accountability without adding heavy operational complexity
+
+---
+
+## Features
+
+- AI-assisted image analysis flow
+- Upload page for item intake
+- Marketplace for reuse-ready items
+- Recovery Board for recycling, donation, and disposal routing
+- Impact Board with points and leaderboard
+- Seeded demo listings for reliable presentations
+- Local persistence using `localStorage`
+- Demo reset support
+
+---
 
 ## Tech Stack
 
-- Next.js
-- TypeScript
-- Tailwind CSS
+- **Next.js**
+- **TypeScript**
+- **Tailwind CSS**
+- **Gemini API** for image analysis
+- **localStorage** for lightweight persistence
+
+---
 
 ## Run Locally
 
+Install dependencies:
+
 ```bash
 npm install
-npm run dev
-```
-
-Open `http://localhost:3000`.
-
-Create a local env file before using Gemini image analysis:
-
-```bash
-cp .env.example .env.local
-```
-
-Set:
-
-```bash
-GEMINI_API_KEY=your_gemini_api_key_here
-```
-
-## Demo Flow
-
-1. Start on the landing page
-2. Go to `/upload`
-3. Choose an image file
-4. Review the AI-style analysis
-5. Click `Post to Marketplace`
-6. Open `/trading-post`
-7. Click `Claim`
-8. Open `/bounty-board` to see updated points
-
-## Point System
-
-- Post item: `+10`
-- Claim item: `+50`
-- Verified reuse: `+50` future bonus
-
-## Notes
-
-- This version uses AI-style demo analysis only
-- There is no authentication, backend, database, or real-time system
-- The app is intentionally scoped to feel believable for a one-day hackathon build
-
-## Future Work
-
-- Replace the AI-style demo analysis with real image understanding
-- Store listings in a lightweight backend
-- Add a simple verified reuse confirmation flow
-
-## Credits
-
-- Built with Next.js, TypeScript, and Tailwind CSS
-- Demo concept and product direction centered on sustainability-first material reuse
