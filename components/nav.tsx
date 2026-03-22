@@ -8,6 +8,7 @@ const navItems = [
   { href: "/", label: "Home" },
   { href: "/upload", label: "Upload" },
   { href: "/trading-post", label: "Marketplace" },
+  { href: "/recovery-board", label: "Recovery Board" },
   { href: "/bounty-board", label: "Impact Board" },
 ];
 

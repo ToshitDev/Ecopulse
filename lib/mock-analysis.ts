@@ -53,7 +53,7 @@ const profiles: Record<string, AnalysisResult> = {
     title: "Acrylic or plastic sheet offcuts",
     category: "acrylic sheets",
     condition: "Minor cosmetic wear",
-    recommendedAction: "repurpose",
+    recommendedAction: "donate",
     reuseValue: "Medium",
     recycleValue: "Low",
     reuseIdeas: [
@@ -63,7 +63,7 @@ const profiles: Record<string, AnalysisResult> = {
     ],
     sustainabilityImpact: "Extends the life of sheet material already in circulation.",
     bountyPoints: 25,
-    notes: "Still useful for display, protection, and small fabrication tasks.",
+    notes: "Still useful, but better suited for donation or community reuse than direct marketplace posting.",
   },
   electronics: {
     title: "Electronics parts and wires",
@@ -101,7 +101,7 @@ const profiles: Record<string, AnalysisResult> = {
     title: "Fabric and soft material scraps",
     category: "fabric",
     condition: "Clean and cuttable",
-    recommendedAction: "repurpose",
+    recommendedAction: "donate",
     reuseValue: "Medium",
     recycleValue: "Low",
     reuseIdeas: [
@@ -111,7 +111,7 @@ const profiles: Record<string, AnalysisResult> = {
     ],
     sustainabilityImpact: "Diverts usable textile scraps from disposal and supports lightweight reuse.",
     bountyPoints: 22,
-    notes: "Best for prototypes, padding, and small sewn accessories.",
+    notes: "Still usable, but better suited for donation or community reuse than direct marketplace posting.",
   },
   event: {
     title: "Reusable event materials",

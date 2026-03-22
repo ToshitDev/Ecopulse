@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnalysisCard } from "@/components/analysis-card";
 import { SectionHeading } from "@/components/section-heading";
 import { toAnalysisResult } from "@/lib/ai-analysis";
+import { isMarketplaceAction } from "@/lib/listing-routing";
 import { getMockAnalysis } from "@/lib/mock-analysis";
 import { useAppStore } from "@/lib/store";
 import type { AnalysisResult } from "@/lib/types";
@@ -20,15 +21,16 @@ export function UploadFlow() {
   const [message, setMessage] = useState("Choose a photo to generate a listing draft.");
   const analysisTimeoutRef = useRef<number | null>(null);
   const fileReadTokenRef = useRef(0);
-  const isLowReuseRecommendation =
-    analysis?.recommendedAction === "recycle" || analysis?.recommendedAction === "dispose";
+  const routesToMarketplace = analysis ? isMarketplaceAction(analysis.recommendedAction) : false;
   const primaryCta =
     analysis?.cta ??
     (analysis?.recommendedAction === "dispose"
-      ? "Dispose Properly"
+      ? "Send to Recovery Board"
       : analysis?.recommendedAction === "recycle"
-        ? "Mark for Recycling"
-        : "Post to Marketplace");
+        ? "Send to Recovery Board"
+        : analysis?.recommendedAction === "donate"
+          ? "Send to Recovery Board"
+          : "Post to Marketplace");
 
   useEffect(() => {
     return () => {
@@ -65,15 +67,6 @@ export function UploadFlow() {
       return;
     }
 
-    if (analysis.recommendedAction === "recycle" || analysis.recommendedAction === "dispose") {
-      setMessage(
-        analysis.recommendedAction === "dispose"
-          ? "This item looks like waste and should not be posted to the marketplace."
-          : "This item is better suited for recycling than marketplace posting.",
-      );
-      return;
-    }
-
     postListing({
       ...analysis,
       imageUrl: persistedImageUrl,
@@ -84,7 +77,11 @@ export function UploadFlow() {
     setAnalysis(null);
     setPreviewUrl("");
     setPersistedImageUrl("");
-    setMessage("Listing posted. Head to the marketplace to let someone claim it.");
+    setMessage(
+      routesToMarketplace
+        ? "Item posted to Marketplace. Head there to let someone claim it."
+        : "Item added to Recovery Board with the recommended next action.",
+    );
   };
 
   return (
@@ -106,15 +103,15 @@ export function UploadFlow() {
                 One clear item photo
               </h3>
             </div>
-            <div className="rounded-[1.15rem] bg-[#edf3ed] px-3 py-2 text-right">
+                <div className="rounded-[1.15rem] bg-[#edf3ed] px-3 py-2 text-right">
               <p className="text-[11px] uppercase tracking-[0.14em] text-[color:var(--accent)]">
-                {isLowReuseRecommendation ? "Best next step" : "Post reward"}
+                {routesToMarketplace ? "Post reward" : "Best next step"}
               </p>
               <p className="mt-1 text-lg font-semibold text-[color:var(--foreground)]">
                 {analysis?.recommendedAction === "dispose"
                   ? "Dispose"
-                  : isLowReuseRecommendation
-                    ? "Recycle"
+                  : !routesToMarketplace
+                    ? "Recover"
                     : "+10 points"}
               </p>
             </div>
@@ -205,11 +202,9 @@ export function UploadFlow() {
                     setAnalysis(result);
                     setIsAnalyzing(false);
                     setMessage(
-                      result.recommendedAction === "dispose"
-                        ? "Analysis ready. This looks like disposable waste and should stay out of the marketplace."
-                        : result.recommendedAction === "recycle"
-                          ? "Analysis ready. This item should go to recycling, not the marketplace."
-                          : "Analysis ready. Post it when it looks right.",
+                      isMarketplaceAction(result.recommendedAction)
+                        ? "Analysis ready. Post it when it looks right."
+                        : "Analysis ready. This item will go to Recovery Board instead of Marketplace.",
                     );
                   });
                 }, 650);
@@ -235,9 +230,9 @@ export function UploadFlow() {
             <button
               type="button"
               onClick={handlePost}
-              disabled={!analysis || isAnalyzing || isLowReuseRecommendation}
+              disabled={!analysis || !persistedImageUrl || isAnalyzing}
               className={`rounded-[1.2rem] px-4 py-3.5 text-sm font-semibold transition ${
-                analysis && !isAnalyzing && !isLowReuseRecommendation
+                analysis && persistedImageUrl && !isAnalyzing
                   ? "border border-[color:var(--line-strong)] bg-[#f7efe0] text-[color:var(--foreground)] hover:border-[color:var(--earth)]"
                   : "cursor-not-allowed border border-[color:var(--line)] bg-[#f6f0e6] text-[color:var(--muted)]"
               }`}

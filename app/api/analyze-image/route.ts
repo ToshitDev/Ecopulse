@@ -22,6 +22,9 @@ Your task:
 - Use dispose for dirty, contaminated, unsafe, or non-recoverable waste
 - Use donate for intact items better suited for donation than direct marketplace exchange
 - For electronic waste, recommend recycling through e-waste channels
+- If uncertain between reuse and recycle, choose recycle
+- If uncertain between recycle and dispose, choose dispose only when contamination is obvious
+- Never return uncertainty, manual review, or human-decision states
 
 Allowed recommendedAction values:
 - reuse

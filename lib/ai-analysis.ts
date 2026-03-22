@@ -116,7 +116,6 @@ function buildNotes(action: RecommendedAction) {
       return "This item appears contaminated or low-value for reuse and should stay out of the marketplace.";
     case "donate":
       return "This item is suitable for donation rather than disposal.";
-    case "repurpose":
     case "reuse":
     default:
       return "This item looks suitable for reuse through the EcoPulse marketplace.";

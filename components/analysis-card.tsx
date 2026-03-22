@@ -1,3 +1,4 @@
+import { getNextStepMessage, getWhyThisDecision } from "@/lib/analysis-copy";
 import type { AnalysisResult } from "@/lib/types";
 
 export function AnalysisCard({ result }: { result: AnalysisResult }) {
@@ -6,9 +7,7 @@ export function AnalysisCard({ result }: { result: AnalysisResult }) {
       ? "Recycle"
       : result.recommendedAction === "dispose"
         ? "Dispose"
-      : result.recommendedAction === "repurpose"
-        ? "Repurpose"
-        : result.recommendedAction === "donate"
+      : result.recommendedAction === "donate"
           ? "Donate"
           : "Reuse";
 
@@ -37,6 +36,9 @@ export function AnalysisCard({ result }: { result: AnalysisResult }) {
           <h3 className="text-[1.9rem] font-semibold tracking-[-0.03em] text-[color:var(--foreground)]">
             {result.title}
           </h3>
+          <p className="max-w-xl text-sm leading-6 text-[color:var(--foreground)]/85">
+            {getWhyThisDecision(result)}
+          </p>
           <p className="max-w-xl text-sm leading-6 text-[color:var(--muted)]">{result.notes}</p>
         </div>
         <div className="rounded-[1.35rem] bg-[color:var(--accent)] px-4 py-3 text-white md:min-w-36">
@@ -48,6 +50,12 @@ export function AnalysisCard({ result }: { result: AnalysisResult }) {
 
       <div className="mt-6 grid gap-3 md:grid-cols-[0.8fr_1.25fr]">
         <div className="grid gap-3">
+          <div className="rounded-[1.35rem] bg-[#edf3ed] p-4">
+            <p className="text-[11px] uppercase tracking-[0.16em] text-[color:var(--accent)]">Next step</p>
+            <p className="mt-2 text-sm font-semibold text-[color:var(--foreground)]">
+              {getNextStepMessage(result)}
+            </p>
+          </div>
           <div className="rounded-[1.35rem] bg-[#f3ede2] p-4">
             <p className="text-[11px] uppercase tracking-[0.16em] text-[color:var(--earth)]">Condition</p>
             <p className="mt-2 text-sm font-semibold text-[color:var(--foreground)]">{result.condition}</p>
@@ -89,7 +97,7 @@ export function AnalysisCard({ result }: { result: AnalysisResult }) {
 
       <div className="mt-6 space-y-3">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[color:var(--earth)]">
-          {result.recommendedAction === "reuse" || result.recommendedAction === "repurpose"
+          {result.recommendedAction === "reuse"
             ? "Suggested reuse"
             : "Suggested actions"}
         </p>

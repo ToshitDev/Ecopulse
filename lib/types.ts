@@ -1,6 +1,10 @@
 export type ListingCategory = string;
 
-export type RecommendedAction = "reuse" | "donate" | "recycle" | "repurpose" | "dispose";
+export type RecommendedAction =
+  | "reuse"
+  | "donate"
+  | "recycle"
+  | "dispose";
 
 export interface AnalysisResult {
   title: string;
@@ -15,6 +19,8 @@ export interface AnalysisResult {
   sustainabilityImpact: string;
   bountyPoints: number;
   notes: string;
+  whyThisDecision?: string;
+  nextStepMessage?: string;
   cta?: string;
 }
 
@@ -24,7 +30,12 @@ export interface Listing extends AnalysisResult {
   imageName: string;
   postedBy: string;
   location: string;
-  status: "available" | "captured";
+  status:
+    | "available"
+    | "captured"
+    | "recycled"
+    | "disposed"
+    | "donated";
   capturedBy?: string;
 }
 

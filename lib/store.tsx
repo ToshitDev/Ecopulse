@@ -15,6 +15,10 @@ import {
   POST_POINTS,
   initialAppState,
 } from "@/lib/demo-data";
+import {
+  getRecoveryCompletionStatus,
+  isMarketplaceAction,
+} from "@/lib/listing-routing";
 import type { AnalysisResult, AppState, Listing } from "@/lib/types";
 
 const STORAGE_KEY = "wastewanted-demo-state";
@@ -24,6 +28,7 @@ interface AppStoreValue extends AppState {
   captureActorName: string;
   postListing: (input: AnalysisResult & { imageUrl: string; imageName: string }) => void;
   captureListing: (listingId: string) => void;
+  resolveRecoveryListing: (listingId: string) => void;
   resetDemo: () => void;
 }
 
@@ -111,7 +116,11 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         setState((current) => {
           const listing = current.listings.find((entry) => entry.id === listingId);
 
-          if (!listing || listing.status === "captured") {
+          if (
+            !listing ||
+            listing.status === "captured" ||
+            !isMarketplaceAction(listing.recommendedAction)
+          ) {
             return current;
           }
 
@@ -128,6 +137,29 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
           capturer.points += CAPTURE_POINTS;
           capturer.capturedCount += 1;
 
+          return next;
+        });
+      },
+      resolveRecoveryListing: (listingId) => {
+        setState((current) => {
+          const listing = current.listings.find((entry) => entry.id === listingId);
+
+          if (
+            !listing ||
+            listing.status !== "available" ||
+            isMarketplaceAction(listing.recommendedAction)
+          ) {
+            return current;
+          }
+
+          const next = structuredClone(current);
+          const nextListing = next.listings.find((entry) => entry.id === listingId);
+
+          if (!nextListing) {
+            return current;
+          }
+
+          nextListing.status = getRecoveryCompletionStatus(nextListing.recommendedAction);
           return next;
         });
       },
