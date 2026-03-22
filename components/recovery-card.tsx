@@ -92,9 +92,9 @@ export function RecoveryCard({
             </div>
 
             <div className="rounded-[1.25rem] bg-[color:var(--accent)] px-4 py-3 text-white md:min-w-40">
-              <p className="text-[11px] uppercase tracking-[0.18em] text-white/70">Impact value</p>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-white/70">Impact score</p>
               <p className="mt-1 text-2xl font-semibold">{listing.bountyPoints}</p>
-              <p className="text-sm text-white/85">points</p>
+              <p className="text-sm text-white/85">score</p>
             </div>
           </div>
 
@@ -123,7 +123,7 @@ export function RecoveryCard({
             onClick={() => onResolve(listing.id)}
             className={`w-full rounded-[1.2rem] px-4 py-3.5 text-sm font-semibold transition ${
               !isResolved
-                ? "bg-[color:var(--accent)] text-white hover:bg-[#254734]"
+                ? "bg-[color:var(--accent)] text-white hover:bg-[#3f6a54]"
                 : "cursor-not-allowed border border-[color:var(--line)] bg-[#f6f0e6] text-[color:var(--muted)]"
             }`}
           >

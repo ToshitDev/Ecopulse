@@ -79,8 +79,8 @@ export function UploadFlow() {
     setPersistedImageUrl("");
     setMessage(
       routesToMarketplace
-        ? "Item posted to Marketplace. Head there to let someone claim it."
-        : "Item added to Recovery Board with the recommended next action.",
+        ? "Item sent to Marketplace and ready to be claimed."
+        : "Item sent to Recovery Board with the recommended next action.",
     );
   };
 
@@ -88,8 +88,8 @@ export function UploadFlow() {
     <div className="space-y-8">
       <SectionHeading
         eyebrow="Upload"
-        title="Turn one photo into a fast reuse decision"
-        description="Upload a leftover item and let EcoPulse identify it, classify the material, and draft the clearest next step for campus reuse."
+        title="Turn one photo into a clear routing decision"
+        description="Upload a leftover item and let EcoPulse identify it, classify the material, and route it to Marketplace or Recovery Board."
       />
 
       <div className="grid gap-6 lg:grid-cols-[420px_minmax(0,1fr)] lg:items-start">
@@ -103,16 +103,16 @@ export function UploadFlow() {
                 One clear item photo
               </h3>
             </div>
-                <div className="rounded-[1.15rem] bg-[#edf3ed] px-3 py-2 text-right">
+            <div className="rounded-[1.15rem] bg-[#edf3ed] px-3 py-2 text-right">
               <p className="text-[11px] uppercase tracking-[0.14em] text-[color:var(--accent)]">
-                {routesToMarketplace ? "Post reward" : "Best next step"}
+                {routesToMarketplace ? "Commit action" : "Recommended route"}
               </p>
               <p className="mt-1 text-lg font-semibold text-[color:var(--foreground)]">
                 {analysis?.recommendedAction === "dispose"
-                  ? "Dispose"
+                  ? "Recovery Board"
                   : !routesToMarketplace
-                    ? "Recover"
-                    : "+10 points"}
+                    ? "Recovery Board"
+                    : "Marketplace"}
               </p>
             </div>
           </div>
@@ -138,7 +138,7 @@ export function UploadFlow() {
             ) : (
               <div className="max-w-sm space-y-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[color:var(--earth)]">
-                  Required file picker
+                  Photo required
                 </p>
                 <div>
                   <p className="text-2xl font-semibold tracking-[-0.03em] text-[color:var(--foreground)]">
@@ -170,7 +170,7 @@ export function UploadFlow() {
 
               if (file) {
                 setIsAnalyzing(true);
-                setMessage("Reviewing the item and deciding the best next step...");
+                setMessage("Reviewing the item and choosing the clearest next step...");
                 setPersistedImageUrl("");
                 const reader = new FileReader();
                 reader.onload = () => {
@@ -203,8 +203,8 @@ export function UploadFlow() {
                     setIsAnalyzing(false);
                     setMessage(
                       isMarketplaceAction(result.recommendedAction)
-                        ? "Analysis ready. Post it when it looks right."
-                        : "Analysis ready. This item will go to Recovery Board instead of Marketplace.",
+                        ? "Analysis ready. Send this item to Marketplace when it looks right."
+                        : "Analysis ready. Send this item to Recovery Board.",
                     );
                   });
                 }, 650);
@@ -223,7 +223,7 @@ export function UploadFlow() {
           <div className="mt-5 flex flex-wrap items-center gap-3">
             <label
               htmlFor="item-photo"
-              className="cursor-pointer rounded-[1.2rem] bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-[#254734]"
+              className="cursor-pointer rounded-[1.2rem] bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-[#3f6a54]"
             >
               {selectedFile ? "Choose a different photo" : "Choose photo"}
             </label>
@@ -252,7 +252,7 @@ export function UploadFlow() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[color:var(--earth)]">
                 Point system
               </p>
-              <p className="mt-2">Post +10, Claim +50, Verified reuse +50 coming next</p>
+              <p className="mt-2">Post any committed item +10, claim reuse +50, resolve recovery +25, verified reuse +50 coming next</p>
             </div>
           </div>
         </section>
@@ -267,7 +267,7 @@ export function UploadFlow() {
                 Reviewing the upload
               </h3>
               <p className="mt-3 max-w-xl text-sm leading-7 text-[color:var(--muted)]">
-                EcoPulse is drafting the item label, material type, reuse guidance, and a quick
+                EcoPulse is drafting the item label, material type, routing guidance, and a quick
                 impact estimate for this upload.
               </p>
               <div className="mt-6 grid gap-3 md:grid-cols-3">
@@ -281,7 +281,7 @@ export function UploadFlow() {
                 </div>
                 <div className="rounded-[1.25rem] bg-[#f4eee8] p-4">
                   <p className="text-[11px] uppercase tracking-[0.16em] text-[color:var(--earth)]">Next step</p>
-                  <p className="mt-2 text-sm text-[color:var(--muted)]">Preparing the reuse listing</p>
+                  <p className="mt-2 text-sm text-[color:var(--muted)]">Preparing the routing recommendation</p>
                 </div>
               </div>
             </section>
@@ -297,7 +297,7 @@ export function UploadFlow() {
               </h3>
               <p className="mt-3 max-w-xl text-sm leading-7 text-[color:var(--muted)]">
                 Once a photo is selected, EcoPulse drafts a clean item summary with material
-                context, reuse guidance, and a quick impact estimate.
+                context, routing guidance, and a quick impact estimate.
               </p>
               <div className="mt-6 grid gap-3 md:grid-cols-3">
                 <div className="rounded-[1.25rem] bg-[#f3ede2] p-4">
@@ -310,7 +310,7 @@ export function UploadFlow() {
                 </div>
                 <div className="rounded-[1.25rem] bg-[#f4eee8] p-4">
                   <p className="text-[11px] uppercase tracking-[0.16em] text-[color:var(--earth)]">Next step</p>
-                  <p className="mt-2 text-sm text-[color:var(--muted)]">Ready for campus posting</p>
+                  <p className="mt-2 text-sm text-[color:var(--muted)]">Ready for the next step</p>
                 </div>
               </div>
             </section>

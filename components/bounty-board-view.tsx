@@ -2,7 +2,7 @@
 
 import { LeaderboardCard } from "@/components/leaderboard-card";
 import { SectionHeading } from "@/components/section-heading";
-import { VERIFIED_REUSE_POINTS } from "@/lib/demo-data";
+import { RECOVERY_POINTS, VERIFIED_REUSE_POINTS } from "@/lib/demo-data";
 import { useAppStore } from "@/lib/store";
 
 export function BountyBoardView() {
@@ -15,8 +15,8 @@ export function BountyBoardView() {
     <div className="space-y-8">
       <SectionHeading
         eyebrow="Impact Board"
-        title="Tracking what EcoPulse keeps out of the trash"
-        description="A lightweight score and activity view that shows reuse happening in real time across campus."
+        title="Tracking committed EcoPulse actions"
+        description="A lightweight demo scorecard that shows posts, claims, and recovery actions in one place."
       />
 
       <section className="grid gap-4 md:grid-cols-3">
@@ -31,8 +31,8 @@ export function BountyBoardView() {
         <div className="surface-card rounded-[1.65rem] p-5">
           <p className="text-[11px] uppercase tracking-[0.16em] text-[color:var(--earth)]">Future bonus</p>
           <p className="mt-3 text-sm leading-7 text-[color:var(--muted)]">
-            Verified reuse adds {VERIFIED_REUSE_POINTS} points next. For this MVP, the board updates
-            on posting and claiming only.
+            Verified reuse adds {VERIFIED_REUSE_POINTS} points next. The demo board updates on
+            posting, reuse claims, and recovery completion.
           </p>
         </div>
       </section>
@@ -42,7 +42,7 @@ export function BountyBoardView() {
           <p className="text-[11px] uppercase tracking-[0.16em] text-[color:var(--earth)]">Total impact points</p>
           <p className="mt-3 text-4xl font-semibold text-[color:var(--foreground)]">{totalPoints}</p>
           <p className="mt-3 text-sm leading-7 text-[color:var(--muted)]">
-            A simple scorecard for judges to see that material reuse activity is happening right now.
+            A simple demo scorecard for judges to see that confirmed actions are being recorded.
           </p>
         </article>
         <article className="surface-card rounded-[1.75rem] p-5">
@@ -50,6 +50,7 @@ export function BountyBoardView() {
           <div className="mt-3 space-y-2 text-sm leading-7 text-[color:var(--muted)]">
             <p>Post item: +10</p>
             <p>Claim item: +50</p>
+            <p>Resolve recovery action: +{RECOVERY_POINTS}</p>
             <p>Verified reuse: +50 future bonus</p>
           </div>
         </article>

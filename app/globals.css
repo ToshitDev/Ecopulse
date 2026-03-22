@@ -8,8 +8,8 @@
   --panel-tint: #f6efe3;
   --line: #d4c4aa;
   --line-strong: #9f8763;
-  --accent: #2f5d46;
-  --accent-soft: #dce7de;
+  --accent: #4b7c63;
+  --accent-soft: #e4efe7;
   --earth: #8c5a39;
   --muted: #5e6258;
 }
@@ -45,7 +45,7 @@ select {
 }
 
 ::selection {
-  background: rgba(47, 93, 70, 0.16);
+  background: rgba(75, 124, 99, 0.16);
 }
 
 .grain {

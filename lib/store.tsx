@@ -13,6 +13,7 @@ import {
   DEMO_CAPTURE_USER_ID,
   DEMO_POSTER_ID,
   POST_POINTS,
+  RECOVERY_POINTS,
   initialAppState,
 } from "@/lib/demo-data";
 import {
@@ -22,6 +23,11 @@ import {
 import type { AnalysisResult, AppState, Listing } from "@/lib/types";
 
 const STORAGE_KEY = "wastewanted-demo-state";
+const SEEDED_POSTER_NAME_OVERRIDES: Record<string, string> = {
+  "seed-1": "Rohan",
+  "seed-2": "Toshit",
+  "seed-3": "Rithvik",
+};
 
 interface AppStoreValue extends AppState {
   isReady: boolean;
@@ -38,6 +44,23 @@ function cloneInitialState(): AppState {
   return JSON.parse(JSON.stringify(initialAppState)) as AppState;
 }
 
+function normalizeState(state: AppState): AppState {
+  return {
+    ...state,
+    listings: state.listings.map((listing) => ({
+      ...listing,
+      postedBy: SEEDED_POSTER_NAME_OVERRIDES[listing.id] ?? listing.postedBy,
+      committedAt: listing.committedAt ?? listing.updatedAt ?? new Date().toISOString(),
+      updatedAt: listing.updatedAt ?? listing.committedAt ?? new Date().toISOString(),
+    })),
+    leaderboard: state.leaderboard.map((user) => ({
+      ...user,
+      name: user.id === DEMO_CAPTURE_USER_ID ? "Allu Arjun" : user.name,
+      recoveryCount: "recoveryCount" in user ? user.recoveryCount : 0,
+    })),
+  };
+}
+
 function ensurePoster(state: AppState) {
   const existingPoster = state.leaderboard.find((user) => user.id === DEMO_POSTER_ID);
 
@@ -51,7 +74,7 @@ function ensurePoster(state: AppState) {
     points: 0,
     postedCount: 0,
     capturedCount: 0,
-    reusedCount: 0,
+    recoveryCount: 0,
     tagline: "Posting useful leftovers before they get tossed.",
   };
 
@@ -66,9 +89,9 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const rawState = window.localStorage.getItem(STORAGE_KEY);
-      setState(rawState ? (JSON.parse(rawState) as AppState) : cloneInitialState());
+      setState(normalizeState(rawState ? (JSON.parse(rawState) as AppState) : cloneInitialState()));
     } catch {
-      setState(cloneInitialState());
+      setState(normalizeState(cloneInitialState()));
     } finally {
       setIsReady(true);
     }
@@ -84,7 +107,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<AppStoreValue>(() => {
     const captureActorName =
-      state.leaderboard.find((user) => user.id === DEMO_CAPTURE_USER_ID)?.name ?? "Maya Chen";
+      state.leaderboard.find((user) => user.id === DEMO_CAPTURE_USER_ID)?.name ?? "Allu Arjun";
 
     return {
       ...state,
@@ -94,6 +117,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         setState((current) => {
           const next = structuredClone(current);
           const poster = ensurePoster(next);
+          const now = new Date().toISOString();
 
           const listing: Listing = {
             id: `listing-${Date.now()}`,
@@ -101,6 +125,8 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
             imageName,
             postedBy: poster.name,
             location: "Recent upload",
+            committedAt: now,
+            updatedAt: now,
             status: "available",
             ...analysis,
           };
@@ -134,6 +160,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
 
           nextListing.status = "captured";
           nextListing.capturedBy = capturer.name;
+          nextListing.updatedAt = new Date().toISOString();
           capturer.points += CAPTURE_POINTS;
           capturer.capturedCount += 1;
 
@@ -160,11 +187,15 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
           }
 
           nextListing.status = getRecoveryCompletionStatus(nextListing.recommendedAction);
+          nextListing.updatedAt = new Date().toISOString();
+          const poster = ensurePoster(next);
+          poster.points += RECOVERY_POINTS;
+          poster.recoveryCount += 1;
           return next;
         });
       },
       resetDemo: () => {
-        const resetState = cloneInitialState();
+        const resetState = normalizeState(cloneInitialState());
         setState(resetState);
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify(resetState));
       },

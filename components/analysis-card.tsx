@@ -42,9 +42,9 @@ export function AnalysisCard({ result }: { result: AnalysisResult }) {
           <p className="max-w-xl text-sm leading-6 text-[color:var(--muted)]">{result.notes}</p>
         </div>
         <div className="rounded-[1.35rem] bg-[color:var(--accent)] px-4 py-3 text-white md:min-w-36">
-          <p className="text-[11px] uppercase tracking-[0.18em] text-white/70">Impact value</p>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-white/70">Impact score</p>
           <p className="mt-1 text-2xl font-semibold">{result.bountyPoints}</p>
-          <p className="text-sm text-white/85">points</p>
+          <p className="text-sm text-white/85">score</p>
         </div>
       </div>
 

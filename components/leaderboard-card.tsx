@@ -41,8 +41,8 @@ export function LeaderboardCard({
           <p className="mt-1 text-[color:var(--muted)]">Claimed</p>
         </div>
         <div className="rounded-2xl bg-[#f4eee8] p-3">
-          <p className="font-semibold text-[color:var(--foreground)]">{user.reusedCount}</p>
-          <p className="mt-1 text-[color:var(--muted)]">Verified reuse</p>
+          <p className="font-semibold text-[color:var(--foreground)]">{user.recoveryCount}</p>
+          <p className="mt-1 text-[color:var(--muted)]">Recovery actions</p>
         </div>
       </div>
     </article>

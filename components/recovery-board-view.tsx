@@ -16,11 +16,11 @@ export function RecoveryBoardView() {
       <SectionHeading
         eyebrow="Recovery Board"
         title="Items that need the right recovery path"
-        description="A lightweight board for recycling, disposal, donation, and e-waste actions that should stay out of the marketplace."
+        description="A clear routing board for recycling, disposal, donation, and other non-reuse actions."
         action={
           <Link
             href="/upload"
-            className="rounded-2xl bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#254734]"
+            className="rounded-2xl bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#3f6a54]"
           >
             Analyze an item
           </Link>
@@ -35,13 +35,13 @@ export function RecoveryBoardView() {
         <div className="rounded-3xl border border-[color:var(--line)] bg-[color:var(--panel)] p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--earth)]">Board purpose</p>
           <p className="mt-3 text-sm leading-7 text-[color:var(--muted)]">
-            Keep non-reuse items out of Marketplace while still tracking the best next sustainability action.
+            Keep non-reuse items out of Marketplace while still making the next step visible.
           </p>
         </div>
         <div className="rounded-3xl border border-[color:var(--line)] bg-[color:var(--panel)] p-5">
-          <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--earth)]">Flow</p>
+          <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--earth)]">How it works</p>
           <p className="mt-3 text-sm leading-7 text-[color:var(--muted)]">
-            Upload an item, let EcoPulse classify it, then route recycling, disposal, donation, or e-waste recovery work here.
+            Upload an item, let EcoPulse classify it, then route recycling, donation, or disposal work here.
           </p>
         </div>
       </section>
@@ -65,7 +65,7 @@ export function RecoveryBoardView() {
             No recovery items yet
           </h3>
           <p className="mt-3 max-w-xl text-sm leading-7 text-[color:var(--muted)]">
-            Once EcoPulse identifies a non-marketplace item like recycling, disposal, donation, or e-waste recovery, it will appear here.
+            Once EcoPulse identifies a non-reuse item like recycling, disposal, or donation, it will appear here.
           </p>
         </section>
       )}

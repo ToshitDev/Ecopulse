@@ -30,6 +30,8 @@ export interface Listing extends AnalysisResult {
   imageName: string;
   postedBy: string;
   location: string;
+  committedAt: string;
+  updatedAt: string;
   status:
     | "available"
     | "captured"
@@ -45,7 +47,7 @@ export interface LeaderboardUser {
   points: number;
   postedCount: number;
   capturedCount: number;
-  reusedCount: number;
+  recoveryCount: number;
   tagline: string;
 }
 

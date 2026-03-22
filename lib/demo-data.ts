@@ -2,22 +2,19 @@ import type { AppState, LeaderboardUser, Listing } from "@/lib/types";
 
 export const POST_POINTS = 10;
 export const CAPTURE_POINTS = 50;
+export const RECOVERY_POINTS = 25;
 export const VERIFIED_REUSE_POINTS = 50;
 export const DEMO_POSTER_ID = "you";
 export const DEMO_CAPTURE_USER_ID = "maya";
-export const seededCampusImpact = {
-  recycledItems: 9,
-  wasteDivertedLbs: 86,
-};
 
 export const seededLeaderboard: LeaderboardUser[] = [
   {
     id: "maya",
-    name: "Maya Chen",
+    name: "Allu Arjun",
     points: 170,
     postedCount: 3,
     capturedCount: 2,
-    reusedCount: 1,
+    recoveryCount: 1,
     tagline: "Takes event leftovers before they hit the dumpster.",
   },
   {
@@ -26,7 +23,7 @@ export const seededLeaderboard: LeaderboardUser[] = [
     points: 140,
     postedCount: 4,
     capturedCount: 1,
-    reusedCount: 1,
+    recoveryCount: 1,
     tagline: "Builds prototypes from workshop offcuts.",
   },
   {
@@ -35,7 +32,7 @@ export const seededLeaderboard: LeaderboardUser[] = [
     points: 120,
     postedCount: 2,
     capturedCount: 1,
-    reusedCount: 1,
+    recoveryCount: 0,
     tagline: "Keeps packaging and acrylic scraps in circulation.",
   },
   {
@@ -44,7 +41,7 @@ export const seededLeaderboard: LeaderboardUser[] = [
     points: 90,
     postedCount: 2,
     capturedCount: 1,
-    reusedCount: 0,
+    recoveryCount: 0,
     tagline: "Finds homes for storage containers and spare parts.",
   },
 ];
@@ -68,8 +65,10 @@ export const seededListings: Listing[] = [
     notes: "Bundle of medium boxes from this week's supply shipment.",
     imageUrl: "/shipping-boxes.jpg",
     imageName: "shipping-boxes.jpg",
-    postedBy: "Jonah Brooks",
+    postedBy: "Rohan",
     location: "Engineering studio",
+    committedAt: "2026-03-18T14:30:00.000Z",
+    updatedAt: "2026-03-18T14:30:00.000Z",
     status: "available",
   },
   {
@@ -90,8 +89,10 @@ export const seededListings: Listing[] = [
     notes: "Mostly 8 to 18 inch strips from a furniture prototype run.",
     imageUrl: "/wood-offcuts.jpg",
     imageName: "wood-offcuts.jpg",
-    postedBy: "Sofia Patel",
+    postedBy: "Toshit",
     location: "Fabrication lab",
+    committedAt: "2026-03-19T16:10:00.000Z",
+    updatedAt: "2026-03-19T16:10:00.000Z",
     status: "available",
   },
   {
@@ -112,8 +113,10 @@ export const seededListings: Listing[] = [
     notes: "Includes jumper wires, breadboard sensors, and spare headers.",
     imageUrl: "/sensor-bundle.jpg",
     imageName: "sensor-bundle.jpg",
-    postedBy: "Reese Alvarez",
+    postedBy: "Rithvik",
     location: "Robotics bench",
+    committedAt: "2026-03-20T12:45:00.000Z",
+    updatedAt: "2026-03-20T12:45:00.000Z",
     status: "available",
   },
 ];

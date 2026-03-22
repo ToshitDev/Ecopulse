@@ -16,11 +16,11 @@ export function TradingPostView() {
       <SectionHeading
         eyebrow="Marketplace"
         title="Useful materials ready to move across campus"
-        description="A shared reuse feed for items that should be claimed before they become waste."
+        description="A campus reuse feed for items that should be claimed before they become waste."
         action={
           <Link
             href="/upload"
-            className="rounded-2xl bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#254734]"
+            className="rounded-2xl bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#3f6a54]"
           >
             Post an item
           </Link>
@@ -33,13 +33,13 @@ export function TradingPostView() {
           <p className="mt-3 text-3xl font-semibold text-[color:var(--foreground)]">{availableCount}</p>
         </div>
         <div className="rounded-3xl border border-[color:var(--line)] bg-[color:var(--panel)] p-5">
-          <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--earth)]">Claiming as</p>
+          <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--earth)]">Claims handled by</p>
           <p className="mt-3 text-3xl font-semibold text-[color:var(--foreground)]">{captureActorName}</p>
         </div>
         <div className="rounded-3xl border border-[color:var(--line)] bg-[color:var(--panel)] p-5">
-          <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--earth)]">Marketplace flow</p>
+          <p className="text-xs uppercase tracking-[0.16em] text-[color:var(--earth)]">How it works</p>
           <p className="mt-3 text-sm leading-7 text-[color:var(--muted)]">
-            Upload an item, post it here, then let someone claim it to update the impact board instantly.
+            Upload an item, send it here, and let someone claim it before it gets discarded.
           </p>
         </div>
       </section>
